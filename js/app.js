@@ -3,6 +3,10 @@ const COLUMN_WIDTH = 101;
 const ROW_HEIGHT = 83;
 const NUM_COLUMNS = 5;
 const NUM_ROWS = 6;
+const PLAYER_CHARACTERS = [
+    'images/char-boy.png',
+    'images/char-cat-girl.png'
+];
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -32,9 +36,8 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 
 var Player = function() {
-    this.sprite = 'images/char-boy.png';
-    this.row = 5;
-    this.column = 2;
+    this.character_num = 0;
+    this.reset();
 };
 
 Player.prototype.update = function(dt) {
@@ -50,7 +53,9 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), x, y);
 };
 
-// Move player's position on the grid when arrow keys are pressed
+// Move player's position on the grid when arrow keys are pressed.
+// Make sure player stays on the grid.
+// If player reaches top row, game is won.
 Player.prototype.handleInput = function(direction) {
     if ((direction === 'up') && (this.row > 0)) {
         this.row -= 1;
@@ -65,6 +70,29 @@ Player.prototype.handleInput = function(direction) {
         this.column += 1;
     }
     console.log(direction, this.row, this.column);
+    if (this.row === 0) {
+        this.win();
+    }
+}
+
+// Reset player location at the bottom of the grid and set player character.
+// Called whenever player wins or loses or when game is started for the
+// first time.
+Player.prototype.reset = function() {
+    this.character_num += 1;
+    if (this.character_num > PLAYER_CHARACTERS.length - 1)
+    {
+        this.character_num = 0;
+    }
+    this.sprite = PLAYER_CHARACTERS[this.character_num];
+    this.row = NUM_ROWS - 1;
+    this.column = 2;
+}
+
+// Win game and start a new one.
+Player.prototype.win = function() {
+    console.log("Congratulations, you won!");
+    this.reset();
 }
 
 // Now instantiate your objects.
