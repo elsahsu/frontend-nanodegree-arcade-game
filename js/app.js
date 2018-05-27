@@ -49,8 +49,8 @@ Enemy.prototype.render = function() {
 
 // Reset enemy to the left of the grid and assign row and speed
 Enemy.prototype.reset = function() {
-    this.row = 1;
-    this.speed = 50;
+    this.row = Math.floor(Math.random() * 3) + 1; // Integer between 1 and 3
+    this.speed = Math.random() * 150 + 50;
     this.x = - COLUMN_WIDTH;
     this.y = this.row * ROW_HEIGHT - 20;
 }
@@ -144,5 +144,8 @@ document.addEventListener('keyup', function(e) {
 
 var player = new Player();
 var allEnemies = [];
-allEnemies.push(new Enemy());
+
+for (let i = 0;i < 3;i++) {
+    allEnemies.push(new Enemy());
+}
 
