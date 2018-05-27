@@ -16,6 +16,7 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.reset();
 };
 
 // Update the enemy's position, required method for game
@@ -24,12 +25,26 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    if (this.x < NUM_COLUMNS * COLUMN_WIDTH) {
+        this.x += this.speed * dt;
+    } else {
+        this.reset();
+    }
+
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+// Reset enemy to the left of the grid and assign row and speed
+Enemy.prototype.reset = function() {
+    this.row = 1;
+    this.speed = 50;
+    this.x = 0;
+    this.y = this.row * ROW_HEIGHT - 20;
+}
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -112,6 +127,7 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-var allEnemies = [];
 var player = new Player();
+var allEnemies = [];
+allEnemies.push(new Enemy());
 
