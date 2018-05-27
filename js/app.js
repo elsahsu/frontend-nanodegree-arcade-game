@@ -11,9 +11,6 @@ const PLAYER_CHARACTERS = [
     'images/char-princess-girl.png'
 ];
 
-let win_count = 0;
-let lose_count = 0;
-
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -56,9 +53,11 @@ Enemy.prototype.render = function() {
 // Reset enemy to the left of the grid and assign row and speed
 Enemy.prototype.reset = function() {
     this.row = Math.floor(Math.random() * 3) + 1; // Integer between 1 and 3
-    this.speed = Math.random() * 150 + 50;
-    this.x = - COLUMN_WIDTH;
+    // Randomize speed. More times the player has won, the faster the enemies.
+    this.speed = 50 + Math.random() * (50 * (player.win_count + 1));
+    this.x = - COLUMN_WIDTH; // Start from beyond the canvas edge
     this.y = this.row * ROW_HEIGHT - 20;
+    console.log("Beetle row: ", this.row, " speed: ", this.speed);
 }
 
 // Now write your own player class
@@ -66,6 +65,8 @@ Enemy.prototype.reset = function() {
 // a handleInput() method.
 
 var Player = function() {
+    this.win_count = 0;
+    this.lose_count = 0;
     this.character_num = Math.floor(Math.random() * PLAYER_CHARACTERS.length);
     this.reset();
 };
@@ -81,6 +82,9 @@ Player.prototype.render = function() {
     x = this.column * COLUMN_WIDTH;
     y = this.row * ROW_HEIGHT - 20; // Add a little offset for more 3D look
     ctx.drawImage(Resources.get(this.sprite), x, y);
+    ctx.font = "48px serif";
+    let score_string = "Won: " + this.win_count + " Lost: " + this.lose_count;
+    ctx.fillText(score_string, 0, 100);
 };
 
 // Move player's position on the grid when arrow keys are pressed.
@@ -122,15 +126,21 @@ Player.prototype.reset = function() {
 // Win game and start a new one.
 Player.prototype.win = function() {
     console.log("Congratulations, you won!");
-    win_count++;
+    this.win_count++;
+    updateScore();
     this.reset();
 }
 
 // Lose game and start a new one.
 Player.prototype.lose = function() {
     console.log("You lost");
-    lose_count++;
+    this.lose_count++;
+    updateScore();
     this.reset();
+}
+
+function updateScore() {
+    console.log("Wins: ", player.win_count, " Loses: ", player.lose_count);
 }
 
 // Now instantiate your objects.
