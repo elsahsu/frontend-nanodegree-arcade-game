@@ -31,6 +31,15 @@ Enemy.prototype.update = function(dt) {
         this.reset();
     }
 
+    // Check for collision if player is on the same row
+    if (this.row === player.row) {
+        let player_x = player.column * COLUMN_WIDTH;
+        let distance = Math.abs(this.x - player_x);
+        // console.log('Distance:', distance);
+        if (distance < 75) {
+            player.lose();
+        }
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -42,7 +51,7 @@ Enemy.prototype.render = function() {
 Enemy.prototype.reset = function() {
     this.row = 1;
     this.speed = 50;
-    this.x = 0;
+    this.x = - COLUMN_WIDTH;
     this.y = this.row * ROW_HEIGHT - 20;
 }
 
@@ -107,6 +116,12 @@ Player.prototype.reset = function() {
 // Win game and start a new one.
 Player.prototype.win = function() {
     console.log("Congratulations, you won!");
+    this.reset();
+}
+
+// Lose game and start a new one.
+Player.prototype.lose = function() {
+    console.log("You lost");
     this.reset();
 }
 
