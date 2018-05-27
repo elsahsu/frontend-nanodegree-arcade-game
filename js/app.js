@@ -5,8 +5,14 @@ const NUM_COLUMNS = 5;
 const NUM_ROWS = 6;
 const PLAYER_CHARACTERS = [
     'images/char-boy.png',
-    'images/char-cat-girl.png'
+    'images/char-cat-girl.png',
+    'images/char-horn-girl.png',
+    'images/char-pink-girl.png',
+    'images/char-princess-girl.png'
 ];
+
+let win_count = 0;
+let lose_count = 0;
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -60,7 +66,7 @@ Enemy.prototype.reset = function() {
 // a handleInput() method.
 
 var Player = function() {
-    this.character_num = 0;
+    this.character_num = Math.floor(Math.random() * PLAYER_CHARACTERS.length);
     this.reset();
 };
 
@@ -116,12 +122,14 @@ Player.prototype.reset = function() {
 // Win game and start a new one.
 Player.prototype.win = function() {
     console.log("Congratulations, you won!");
+    win_count++;
     this.reset();
 }
 
 // Lose game and start a new one.
 Player.prototype.lose = function() {
     console.log("You lost");
+    lose_count++;
     this.reset();
 }
 
