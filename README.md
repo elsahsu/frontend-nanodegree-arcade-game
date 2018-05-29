@@ -3,7 +3,7 @@ frontend-nanodegree-arcade-game
 
 Simple arcade game made as an exercise for Udacity Front-End Web Developer
 Nanodegree Program. The base code and resources for the exercise are from
-here: https://github.com/udacity/frontend-nanodegree-arcade-game
+[here](https://github.com/udacity/frontend-nanodegree-arcade-game).
 
 To run simply dowload the files and open index.html file with your favorite
 browser. The game starts automatically.
