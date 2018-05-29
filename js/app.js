@@ -16,6 +16,8 @@ const PLAYER_CHARACTERS = [
 var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
+    this.x = 0;
+    this.y = 0;
     this.sprite = 'images/enemy-bug.png';
     this.reset();
 };
@@ -32,8 +34,7 @@ Enemy.prototype.update = function(dt) {
 
     // Check for collision if player is on the same row
     if (this.row === player.row) {
-        let player_x = player.column * COLUMN_WIDTH;
-        let distance = Math.abs(this.x - player_x);
+        let distance = Math.abs(this.x - player.x);
         // console.log('Distance:', distance);
         if (distance < 75) {
             player.lose();
@@ -58,6 +59,8 @@ Enemy.prototype.reset = function() {
 
 // Player class. Stores player location, score and handles keyboard input.
 var Player = function() {
+    this.x = 0;
+    this.y = 0;
     this.win_count = 0;
     this.lose_count = 0;
     this.character_num = Math.floor(Math.random() * PLAYER_CHARACTERS.length);
@@ -70,9 +73,9 @@ Player.prototype.update = function(dt) {
 
 // Draw the player and score on the screen
 Player.prototype.render = function() {
-    x = this.column * COLUMN_WIDTH;
-    y = this.row * ROW_HEIGHT - 20; // Add a little offset for more 3D look
-    ctx.drawImage(Resources.get(this.sprite), x, y);
+    this.x = this.column * COLUMN_WIDTH;
+    this.y = this.row * ROW_HEIGHT - 20; // Add a little offset for more 3D look
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     ctx.font = "48px serif";
     let score_string = "Won: " + this.win_count + " Lost: " + this.lose_count;
     ctx.fillText(score_string, 0, 100);
