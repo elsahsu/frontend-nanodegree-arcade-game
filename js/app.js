@@ -76,10 +76,14 @@ Player.prototype.render = function() {
     this.x = this.column * COLUMN_WIDTH;
     this.y = this.row * ROW_HEIGHT - 20; // Add a little offset for more 3D look
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    this.drawScore();
+};
+
+Player.prototype.drawScore = function() {
     ctx.font = "48px serif";
     let score_string = "Won: " + this.win_count + " Lost: " + this.lose_count;
     ctx.fillText(score_string, 0, 100);
-};
+}
 
 // Move player's position on the grid when arrow keys are pressed.
 // Make sure player stays on the grid.
