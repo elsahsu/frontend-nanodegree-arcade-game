@@ -69,6 +69,10 @@ var Player = function() {
 
 Player.prototype.update = function(dt) {
     // Player moves by steps in grid, no smooth time-based movement needed
+    // If player has reached top row, game is won
+    if (this.row === 0) {
+        this.win();
+    }
 };
 
 // Draw the player and score on the screen
@@ -102,9 +106,6 @@ Player.prototype.handleInput = function(direction) {
         this.column += 1;
     }
     console.log(direction, this.row, this.column);
-    if (this.row === 0) {
-        this.win();
-    }
 }
 
 // Reset player location at the bottom of the grid and set player character.
